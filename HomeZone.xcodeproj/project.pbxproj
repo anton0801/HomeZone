@@ -8,11 +8,42 @@
 
 /* Begin PBXBuildFile section */
 		8F6783142F8D26EE00BA1736 /* codemagic.yaml in Resources */ = {isa = PBXBuildFile; fileRef = 8F6783132F8D26E800BA1736 /* codemagic.yaml */; };
+		8FF91BCD2F9024DF007F40B2 /* AppsFlyerLib in Frameworks */ = {isa = PBXBuildFile; productRef = 8FF91BCC2F9024DF007F40B2 /* AppsFlyerLib */; };
+		8FF91BD02F902511007F40B2 /* PostgREST in Frameworks */ = {isa = PBXBuildFile; productRef = 8FF91BCF2F902511007F40B2 /* PostgREST */; };
+		8FF91BD22F902511007F40B2 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8FF91BD12F902511007F40B2 /* Supabase */; };
+		8FF91BD52F902535007F40B2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8FF91BD42F902535007F40B2 /* FirebaseMessaging */; };
+		8FF91BED2F902977007F40B2 /* HomeNotificationServiceExt.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 8FF91BE62F902977007F40B2 /* HomeNotificationServiceExt.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		8FF91BF52F90298B007F40B2 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 8FF91BF42F90298B007F40B2 /* FirebaseMessaging */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		8FF91BEB2F902977007F40B2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F677CAD2F85A42B00BA1736 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8FF91BE52F902977007F40B2;
+			remoteInfo = HomeNotificationServiceExt;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8FF91BF22F902977007F40B2 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				8FF91BED2F902977007F40B2 /* HomeNotificationServiceExt.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8F677CB52F85A42B00BA1736 /* HomeZone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeZone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F6783132F8D26E800BA1736 /* codemagic.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = codemagic.yaml; sourceTree = "<group>"; };
+		8FF91BE62F902977007F40B2 /* HomeNotificationServiceExt.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = HomeNotificationServiceExt.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -22,6 +53,13 @@
 				Info.plist,
 			);
 			target = 8F677CB42F85A42B00BA1736 /* HomeZone */;
+		};
+		8FF91BF12F902977007F40B2 /* Exceptions for "HomeNotificationServiceExt" folder in "HomeNotificationServiceExt" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 8FF91BE52F902977007F40B2 /* HomeNotificationServiceExt */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -34,6 +72,14 @@
 			path = HomeZone;
 			sourceTree = "<group>";
 		};
+		8FF91BE72F902977007F40B2 /* HomeNotificationServiceExt */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				8FF91BF12F902977007F40B2 /* Exceptions for "HomeNotificationServiceExt" folder in "HomeNotificationServiceExt" target */,
+			);
+			path = HomeNotificationServiceExt;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +87,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FF91BD52F902535007F40B2 /* FirebaseMessaging in Frameworks */,
+				8FF91BD02F902511007F40B2 /* PostgREST in Frameworks */,
+				8FF91BCD2F9024DF007F40B2 /* AppsFlyerLib in Frameworks */,
+				8FF91BD22F902511007F40B2 /* Supabase in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8FF91BE32F902977007F40B2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8FF91BF52F90298B007F40B2 /* FirebaseMessaging in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,6 +110,8 @@
 			children = (
 				8F6783132F8D26E800BA1736 /* codemagic.yaml */,
 				8F677CB72F85A42B00BA1736 /* HomeZone */,
+				8FF91BE72F902977007F40B2 /* HomeNotificationServiceExt */,
+				8FF91BF32F90298B007F40B2 /* Frameworks */,
 				8F677CB62F85A42B00BA1736 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -60,8 +120,16 @@
 			isa = PBXGroup;
 			children = (
 				8F677CB52F85A42B00BA1736 /* HomeZone.app */,
+				8FF91BE62F902977007F40B2 /* HomeNotificationServiceExt.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8FF91BF32F90298B007F40B2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -74,20 +142,49 @@
 				8F677CB12F85A42B00BA1736 /* Sources */,
 				8F677CB22F85A42B00BA1736 /* Frameworks */,
 				8F677CB32F85A42B00BA1736 /* Resources */,
+				8FF91BF22F902977007F40B2 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8FF91BEC2F902977007F40B2 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				8F677CB72F85A42B00BA1736 /* HomeZone */,
 			);
 			name = HomeZone;
 			packageProductDependencies = (
+				8FF91BCC2F9024DF007F40B2 /* AppsFlyerLib */,
+				8FF91BCF2F902511007F40B2 /* PostgREST */,
+				8FF91BD12F902511007F40B2 /* Supabase */,
+				8FF91BD42F902535007F40B2 /* FirebaseMessaging */,
 			);
 			productName = HomeZone;
 			productReference = 8F677CB52F85A42B00BA1736 /* HomeZone.app */;
 			productType = "com.apple.product-type.application";
+		};
+		8FF91BE52F902977007F40B2 /* HomeNotificationServiceExt */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8FF91BEE2F902977007F40B2 /* Build configuration list for PBXNativeTarget "HomeNotificationServiceExt" */;
+			buildPhases = (
+				8FF91BE22F902977007F40B2 /* Sources */,
+				8FF91BE32F902977007F40B2 /* Frameworks */,
+				8FF91BE42F902977007F40B2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				8FF91BE72F902977007F40B2 /* HomeNotificationServiceExt */,
+			);
+			name = HomeNotificationServiceExt;
+			packageProductDependencies = (
+				8FF91BF42F90298B007F40B2 /* FirebaseMessaging */,
+			);
+			productName = HomeNotificationServiceExt;
+			productReference = 8FF91BE62F902977007F40B2 /* HomeNotificationServiceExt.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -102,6 +199,9 @@
 					8F677CB42F85A42B00BA1736 = {
 						CreatedOnToolsVersion = 16.4;
 					};
+					8FF91BE52F902977007F40B2 = {
+						CreatedOnToolsVersion = 16.4;
+					};
 				};
 			};
 			buildConfigurationList = 8F677CB02F85A42B00BA1736 /* Build configuration list for PBXProject "HomeZone" */;
@@ -113,12 +213,18 @@
 			);
 			mainGroup = 8F677CAC2F85A42B00BA1736;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				8FF91BCB2F9024DF007F40B2 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */,
+				8FF91BCE2F902511007F40B2 /* XCRemoteSwiftPackageReference "supabase-swift" */,
+				8FF91BD32F902535007F40B2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 8F677CB62F85A42B00BA1736 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				8F677CB42F85A42B00BA1736 /* HomeZone */,
+				8FF91BE52F902977007F40B2 /* HomeNotificationServiceExt */,
 			);
 		};
 /* End PBXProject section */
@@ -132,6 +238,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8FF91BE42F902977007F40B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -142,7 +255,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8FF91BE22F902977007F40B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		8FF91BEC2F902977007F40B2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8FF91BE52F902977007F40B2 /* HomeNotificationServiceExt */;
+			targetProxy = 8FF91BEB2F902977007F40B2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		8F677CBF2F85A42D00BA1736 /* Debug */ = {
@@ -272,6 +400,7 @@
 				INFOPLIST_FILE = HomeZone/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Home Zone";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use your camera in this application.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Home Zone may access limited device-level technical information to support home management features, ensure consistent performance, and improve overall usability. This data is used solely for internal diagnostics and continuous improvement. It is not used to track users across other apps or websites and is not shared with third parties for advertising purposes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -286,7 +415,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zoneapph.HomeZone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -313,6 +442,7 @@
 				INFOPLIST_FILE = HomeZone/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Home Zone";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Allow to use your camera in this application.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "Home Zone may access limited device-level technical information to support home management features, ensure consistent performance, and improve overall usability. This data is used solely for internal diagnostics and continuous improvement. It is not used to track users across other apps or websites and is not shared with third parties for advertising purposes.";
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
 				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
@@ -327,7 +457,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 15.3;
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zoneapph.HomeZone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -338,6 +468,67 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				XROS_DEPLOYMENT_TARGET = 2.5;
+			};
+			name = Release;
+		};
+		8FF91BEF2F902977007F40B2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HomeNotificationServiceExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HomeNotificationServiceExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zoneapph.HomeZone.HomeNotificationServiceExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		8FF91BF02F902977007F40B2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = HomeNotificationServiceExt/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = HomeNotificationServiceExt;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zoneapph.HomeZone.HomeNotificationServiceExt;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
 		};
@@ -362,7 +553,71 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8FF91BEE2F902977007F40B2 /* Build configuration list for PBXNativeTarget "HomeNotificationServiceExt" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8FF91BEF2F902977007F40B2 /* Debug */,
+				8FF91BF02F902977007F40B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		8FF91BCB2F9024DF007F40B2 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AppsFlyerSDK/AppsFlyerFramework";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.17.9;
+			};
+		};
+		8FF91BCE2F902511007F40B2 /* XCRemoteSwiftPackageReference "supabase-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/supabase/supabase-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
+		8FF91BD32F902535007F40B2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.12.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		8FF91BCC2F9024DF007F40B2 /* AppsFlyerLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FF91BCB2F9024DF007F40B2 /* XCRemoteSwiftPackageReference "AppsFlyerFramework" */;
+			productName = AppsFlyerLib;
+		};
+		8FF91BCF2F902511007F40B2 /* PostgREST */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FF91BCE2F902511007F40B2 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = PostgREST;
+		};
+		8FF91BD12F902511007F40B2 /* Supabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FF91BCE2F902511007F40B2 /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Supabase;
+		};
+		8FF91BD42F902535007F40B2 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FF91BD32F902535007F40B2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+		8FF91BF42F90298B007F40B2 /* FirebaseMessaging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8FF91BD32F902535007F40B2 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseMessaging;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 8F677CAD2F85A42B00BA1736 /* Project object */;
 }

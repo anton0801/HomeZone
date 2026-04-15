@@ -1,6 +1,7 @@
 import SwiftUI
+import Combine
+import Network
 
-// MARK: - Splash Screen
 struct SplashView: View {
     @State private var scale: CGFloat = 0.3
     @State private var opacity: Double = 0
@@ -8,75 +9,148 @@ struct SplashView: View {
     @State private var subtitleOpacity: Double = 0
     @State private var particles: [ParticleData] = (0..<20).map { _ in ParticleData() }
     @State private var animateParticles = false
-    var onFinish: () -> Void
+    @StateObject private var coordinator: AppCoordinator
+    @ObservedObject private var viewModel: HomeZoneViewModel
+    @State private var networkMonitor = NWPathMonitor()
+    @State private var cancellables = Set<AnyCancellable>()
+    
+    init() {
+        let storage = UserDefaultsStorageService()
+        let validation = SupabaseValidationService()
+        let network = HTTPNetworkService()
+        let notification = SystemNotificationService()
+        
+        let coord = AppCoordinator(
+            storage: storage,
+            validation: validation,
+            network: network,
+            notification: notification
+        )
+        
+        _coordinator = StateObject(wrappedValue: coord)
+        _viewModel = ObservedObject(wrappedValue: coord.getViewModel())
+    }
     
     var body: some View {
-        ZStack {
-            // Background gradient
-            DS.splashGradient.ignoresSafeArea()
-            
-            // Particles
-            ForEach(0..<particles.count, id: \.self) { i in
-                Circle()
-                    .fill(Color.white.opacity(0.15))
-                    .frame(width: particles[i].size, height: particles[i].size)
-                    .offset(
-                        x: animateParticles ? particles[i].endX : particles[i].startX,
-                        y: animateParticles ? particles[i].endY : particles[i].startY
-                    )
-                    .animation(
-                        .easeInOut(duration: particles[i].duration).repeatForever(autoreverses: true).delay(particles[i].delay),
-                        value: animateParticles
-                    )
-            }
-            
-            VStack(spacing: 24) {
-                // Logo
-                ZStack {
+        NavigationView {
+            ZStack {
+                // Background gradient
+                DS.splashGradient.ignoresSafeArea()
+                
+                GeometryReader { geometry in
+                    Image("ll_img")
+                        .resizable().scaledToFill()
+                        .frame(width: geometry.size.width, height: geometry.size.height)
+                        .ignoresSafeArea()
+                        .blur(radius: 9)
+                        .opacity(0.6)
+                }
+                
+                // Particles
+                ForEach(0..<particles.count, id: \.self) { i in
                     Circle()
                         .fill(Color.white.opacity(0.15))
-                        .frame(width: 120, height: 120)
-                    Circle()
-                        .fill(Color.white.opacity(0.1))
-                        .frame(width: 90, height: 90)
-                    VStack(spacing: 2) {
-                        Image(systemName: "thermometer.medium")
-                            .font(.system(size: 40, weight: .light))
+                        .frame(width: particles[i].size, height: particles[i].size)
+                        .offset(
+                            x: animateParticles ? particles[i].endX : particles[i].startX,
+                            y: animateParticles ? particles[i].endY : particles[i].startY
+                        )
+                        .animation(
+                            .easeInOut(duration: particles[i].duration).repeatForever(autoreverses: true).delay(particles[i].delay),
+                            value: animateParticles
+                        )
+                }
+                
+                NavigationLink(
+                    destination: HomeZoneWebView().navigationBarHidden(true),
+                    isActive: $coordinator.navigateToWeb
+                ) { EmptyView() }
+                
+                NavigationLink(
+                    destination: RootView().navigationBarBackButtonHidden(true),
+                    isActive: $coordinator.navigateToMain
+                ) { EmptyView() }
+                
+                VStack(spacing: 24) {
+                    // Logo
+                    ZStack {
+                        Circle()
+                            .fill(Color.white.opacity(0.15))
+                            .frame(width: 120, height: 120)
+                        Circle()
+                            .fill(Color.white.opacity(0.1))
+                            .frame(width: 90, height: 90)
+                        VStack(spacing: 2) {
+                            Image(systemName: "thermometer.medium")
+                                .font(.system(size: 40, weight: .light))
+                                .foregroundColor(.white)
+                            Image(systemName: "house.fill")
+                                .font(.system(size: 18, weight: .semibold))
+                                .foregroundColor(.white.opacity(0.8))
+                        }
+                    }
+                    .scaleEffect(scale)
+                    .opacity(opacity)
+                    
+                    VStack(spacing: 8) {
+                        Text("Home Zone")
+                            .font(.system(size: 36, weight: .bold, design: .rounded))
                             .foregroundColor(.white)
-                        Image(systemName: "house.fill")
-                            .font(.system(size: 18, weight: .semibold))
+                            .offset(y: titleOffset)
+                            .opacity(opacity)
+                        
+                        Text("Loading content...")
+                            .font(.system(size: 17, weight: .medium, design: .rounded))
                             .foregroundColor(.white.opacity(0.8))
+                            .opacity(subtitleOpacity)
                     }
                 }
-                .scaleEffect(scale)
-                .opacity(opacity)
-                
-                VStack(spacing: 8) {
-                    Text("Home Zone")
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundColor(.white)
-                        .offset(y: titleOffset)
-                        .opacity(opacity)
-                    
-                    Text("See your home climate")
-                        .font(.system(size: 17, weight: .medium, design: .rounded))
-                        .foregroundColor(.white.opacity(0.8))
-                        .opacity(subtitleOpacity)
+            }
+            .fullScreenCover(isPresented: $viewModel.showPermissionPrompt) {
+                HomeZoneNotificationView(viewModel: viewModel)
+            }
+            .fullScreenCover(isPresented: $viewModel.showOfflineView) {
+                UnavailableView()
+            }
+            .onAppear {
+                animateParticles = true
+                setupStreams()
+                setupNetworkMonitoring()
+                coordinator.start()
+                withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                    scale = 1.0; opacity = 1.0; titleOffset = 0
+                }
+                withAnimation(.easeIn(duration: 0.5).delay(0.4)) {
+                    subtitleOpacity = 1
                 }
             }
         }
-        .onAppear {
-            animateParticles = true
-            withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
-                scale = 1.0; opacity = 1.0; titleOffset = 0
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
+    
+    private func setupStreams() {
+        NotificationCenter.default.publisher(for: Notification.Name("ConversionDataReceived"))
+            .compactMap { $0.userInfo?["conversionData"] as? [String: Any] }
+            .sink { data in
+                viewModel.handleTracking(data)
             }
-            withAnimation(.easeIn(duration: 0.5).delay(0.4)) {
-                subtitleOpacity = 1
+            .store(in: &cancellables)
+        
+        NotificationCenter.default.publisher(for: Notification.Name("deeplink_values"))
+            .compactMap { $0.userInfo?["deeplinksData"] as? [String: Any] }
+            .sink { data in
+                viewModel.handleNavigation(data)
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
-                withAnimation(.easeInOut(duration: 0.4)) { onFinish() }
+            .store(in: &cancellables)
+    }
+    
+    private func setupNetworkMonitoring() {
+        networkMonitor.pathUpdateHandler = { path in
+            Task { @MainActor in
+                viewModel.networkStatusChanged(path.status == .satisfied)
             }
         }
+        networkMonitor.start(queue: .global(qos: .background))
     }
 }
 
@@ -402,4 +476,112 @@ struct WelcomeView: View {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.75).delay(0.1)) { appear = true }
         }
     }
+}
+
+struct HomeZoneNotificationView: View {
+    let viewModel: HomeZoneViewModel
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                Color.black.ignoresSafeArea()
+                
+                Image(geometry.size.width > geometry.size.height ? "second_home_zone_img" : "main_home_zone_img")
+                    .resizable().scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .ignoresSafeArea().opacity(0.9)
+                
+                if geometry.size.width < geometry.size.height {
+                    VStack(spacing: 12) {
+                        Spacer()
+                        titleText
+                            .multilineTextAlignment(.center)
+                        subtitleText
+                            .multilineTextAlignment(.center)
+                        actionButtons
+                    }
+                    .padding(.bottom, 24)
+                } else {
+                    HStack {
+                        Spacer()
+                        VStack(alignment: .leading, spacing: 12) {
+                            Spacer()
+                            titleText
+                            subtitleText
+                        }
+                        Spacer()
+                        VStack {
+                            Spacer()
+                            actionButtons
+                        }
+                        Spacer()
+                    }
+                    .padding(.bottom, 24)
+                }
+            }
+        }
+        .ignoresSafeArea()
+        .preferredColorScheme(.dark)
+    }
+    
+    private var titleText: some View {
+        Text("ALLOW NOTIFICATIONS ABOUT\nBONUSES AND PROMOS")
+            .font(.custom("NerkoOne-Regular", size: 28))
+            .foregroundColor(.white)
+            .padding(.horizontal, 12)
+    }
+    
+    private var subtitleText: some View {
+        Text("STAY TUNED WITH BEST OFFERS FROM\nOUR CASINO")
+            .font(.custom("NerkoOne-Regular", size: 18))
+            .foregroundColor(.white.opacity(0.7))
+            .padding(.horizontal, 12)
+    }
+    
+    private var actionButtons: some View {
+        VStack(spacing: 12) {
+            Button {
+                viewModel.requestPermission()
+            } label: {
+                Image("main_home_zone_b_img")
+                    .resizable()
+                    .frame(width: 300, height: 55)
+            }
+            
+            Button {
+                viewModel.deferPermission()
+            } label: {
+                Image("sec_home_zone_b_img")
+                    .resizable()
+                    .frame(width: 280, height: 40)
+            }
+        }
+        .padding(.horizontal, 12)
+    }
+}
+
+
+struct UnavailableView: View {
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                Color.black.ignoresSafeArea()
+                Image(geometry.size.width > geometry.size.height ? "ii_sec_img" : "ii_img")
+                    .resizable().scaledToFill()
+                    .frame(width: geometry.size.width, height: geometry.size.height)
+                    .ignoresSafeArea()
+                    .blur(radius: 2)
+                    .opacity(0.8)
+                
+                Image("ii_a_img")
+                    .resizable()
+                    .frame(width: 250, height: 220)
+            }
+        }
+        .ignoresSafeArea()
+    }
+}
+
+#Preview {
+    SplashView()
 }

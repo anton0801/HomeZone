@@ -27,6 +27,7 @@ struct Project: Codable, Identifiable {
     }
 }
 
+
 // MARK: - Room
 struct Room: Codable, Identifiable {
     var id: UUID = UUID()
@@ -196,4 +197,78 @@ enum TemperatureUnit: String, Codable, CaseIterable {
         case .fahrenheit: return "°F"
         }
     }
+}
+
+protocol Coordinator: AnyObject {
+    func start()
+    func navigate(to route: Route)
+}
+
+enum Route {
+    case splash
+    case main
+    case web
+    case permission
+    case offline
+}
+
+protocol ViewModelDelegate: AnyObject {
+    func didRequestNavigation(to route: Route)
+    func didUpdateState(_ state: ApplicationState)
+}
+
+struct ApplicationState {
+    var tracking: [String: String]
+    var navigation: [String: String]
+    var endpoint: String?
+    var mode: String?
+    var isFirstLaunch: Bool
+    var permission: PermissionData
+    var metadata: [String: String]
+    var isLocked: Bool
+    
+    struct PermissionData {
+        var isGranted: Bool
+        var isDenied: Bool
+        var lastAsked: Date?
+        
+        var canAsk: Bool {
+            guard !isGranted && !isDenied else { return false }
+            if let date = lastAsked {
+                return Date().timeIntervalSince(date) / 86400 >= 3
+            }
+            return true
+        }
+        
+        static var initial: PermissionData {
+            PermissionData(isGranted: false, isDenied: false, lastAsked: nil)
+        }
+    }
+    
+    func isOrganic() -> Bool {
+        tracking["af_status"] == "Organic"
+    }
+    
+    func hasTracking() -> Bool {
+        !tracking.isEmpty
+    }
+    
+    static var initial: ApplicationState {
+        ApplicationState(
+            tracking: [:],
+            navigation: [:],
+            endpoint: nil,
+            mode: nil,
+            isFirstLaunch: true,
+            permission: .initial,
+            metadata: [:],
+            isLocked: false
+        )
+    }
+}
+
+enum CoordinatorError: Error {
+    case validationFailed
+    case networkError
+    case timeout
 }
