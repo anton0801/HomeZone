@@ -103,6 +103,9 @@ struct SplashView: View {
                             .font(.system(size: 17, weight: .medium, design: .rounded))
                             .foregroundColor(.white.opacity(0.8))
                             .opacity(subtitleOpacity)
+                        
+                        ProgressView()
+                            .tint(.white)
                     }
                 }
             }

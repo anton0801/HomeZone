@@ -6,8 +6,6 @@ import WebKit
 import UserNotifications
 import Supabase
 
-// MARK: - Storage Service
-
 protocol StorageService {
     func saveTracking(_ data: [String: String])
     func saveNavigation(_ data: [String: String])
